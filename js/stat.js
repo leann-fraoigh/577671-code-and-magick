@@ -1,3 +1,5 @@
+'use strict';
+
 var CLOUD_X_GAP = 150;
 var CLOUD_Y_GAP = 25;
 var BAR_WIDTH = 40;
@@ -7,7 +9,7 @@ var LINE_HEIGTH = 15;
 var mainPlayer = 'Вы';
 
 
-var renderCloud = function(ctx, translateX, translateY, color) {
+var renderCloud = function (ctx, translateX, translateY, color) {
   ctx.translate(translateX, translateY);
   ctx.beginPath();
   ctx.moveTo(110, 270);
@@ -24,7 +26,7 @@ var renderCloud = function(ctx, translateX, translateY, color) {
   ctx.fill();
 };
 
-var getMaxElement = function(arr) {
+var getMaxElement = function (arr) {
   var maxElement = arr[0];
 
   for (var i = 0; i < arr.length; i++) {
@@ -36,7 +38,7 @@ var getMaxElement = function(arr) {
   return maxElement;
 };
 
-window.renderStatistics = function(ctx, names, times) {
+window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, 10, 10, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, -10, -10, '#fff');
 
@@ -49,7 +51,7 @@ window.renderStatistics = function(ctx, names, times) {
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < names.length; i++) {
-    if (names[i] == mainPlayer) {
+    if (names[i] === mainPlayer) {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
       var saturation = Math.floor(Math.random() * 90) + 10;
