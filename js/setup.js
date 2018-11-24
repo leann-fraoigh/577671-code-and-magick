@@ -4,8 +4,8 @@ var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'К
 var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYE_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-// не уверена, что это не лишний шаг, хотя с ним проще перемешивать
-var wizardFeatures = [WIZARD_NAMES, WIZARD_SURNAMES, COAT_COLORS, EYE_COLORS];
+
+var wizardFeatures = [WIZARD_NAMES.slice(), WIZARD_SURNAMES.slice(), COAT_COLORS.slice(), EYE_COLORS.slice()];
 
 var WIZARDS_NUMBER = 4;
 
@@ -39,13 +39,12 @@ var getWizardsArray = function (allFeaturesArray, amountOfWizards) {
 
   for (var j = 0; j < amountOfWizards; j++) {
     var generatedWizard = {};
-    // Не знаю, какой вариант тут лучше.
-    generatedWizard.name = WIZARD_NAMES[j] + ' ' + WIZARD_SURNAMES[j];
-    generatedWizard.coatColor = COAT_COLORS[j];
-    generatedWizard.eyesColor = EYE_COLORS[j];
-    // generatedWizard.name =  wizardFeatures[0][i] + ' ' +  wizardFeatures[1][i];
-    // generatedWizard.coat = wizardFeatures[2][i];
-    // generatedWizard.eyesColor = wizardFeatures[3][i];
+    // generatedWizard.name = WIZARD_NAMES[j] + ' ' + WIZARD_SURNAMES[j];
+    // generatedWizard.coatColor = COAT_COLORS[j];
+    // generatedWizard.eyesColor = EYE_COLORS[j];
+    generatedWizard.name = wizardFeatures[0][j] + ' ' + wizardFeatures[1][j];
+    generatedWizard.coat = wizardFeatures[2][j];
+    generatedWizard.eyesColor = wizardFeatures[3][j];
     generatedWizards.push(generatedWizard);
   }
   return generatedWizards;
