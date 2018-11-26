@@ -4,70 +4,68 @@ var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'К
 var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYE_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-
-var wizardFeatures = [WIZARD_NAMES.slice(), WIZARD_SURNAMES.slice(), COAT_COLORS.slice(), EYE_COLORS.slice()];
-
 var WIZARDS_NUMBER = 4;
-
-var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
 
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template')
-  .content
-  .querySelector('.setup-similar-item');
+.content
+.querySelector('.setup-similar-item');
 
-var shuffle = function (arr) {
-  var j;
-  var temp;
-  for (var i = arr.length - 1; i > 0; i--) {
-    j = Math.floor(Math.random() * (i + 1));
-    temp = arr[j];
-    arr[j] = arr[i];
-    arr[i] = temp;
-  }
+// Показывает окно настроек
+var showSetup = function () {
+  var userDialog = document.querySelector('.setup');
+  userDialog.classList.remove('hidden');
+  document.querySelector('.setup-similar').classList.remove('hidden');
 };
 
-var getWizardsArray = function (allFeaturesArray, amountOfWizards) {
+// Выдает рандомный элемент массива
+var getRandom = function (array) {
+  return array[Math.floor(Math.random() * (array.length - 1))];
+};
 
-  for (var i = 0; i < allFeaturesArray.length; i++) {
-    var array = allFeaturesArray[i];
-    shuffle(array);
-  }
+// Создает массив волшебников
+var getWizardsArray = function (amountOfWizards) {
 
   var generatedWizards = [];
 
   for (var j = 0; j < amountOfWizards; j++) {
     var generatedWizard = {};
-    // generatedWizard.name = WIZARD_NAMES[j] + ' ' + WIZARD_SURNAMES[j];
-    // generatedWizard.coatColor = COAT_COLORS[j];
-    // generatedWizard.eyesColor = EYE_COLORS[j];
-    generatedWizard.name = wizardFeatures[0][j] + ' ' + wizardFeatures[1][j];
-    generatedWizard.coat = wizardFeatures[2][j];
-    generatedWizard.eyesColor = wizardFeatures[3][j];
+    generatedWizard.name = getRandom(WIZARD_NAMES) + ' ' + getRandom(WIZARD_SURNAMES);
+    generatedWizard.coatColor = getRandom(COAT_COLORS);
+    generatedWizard.eyesColor = getRandom(EYE_COLORS);
     generatedWizards.push(generatedWizard);
   }
+
   return generatedWizards;
 };
 
-var wizardsArray = getWizardsArray(wizardFeatures, WIZARDS_NUMBER);
+// Создает элемент со всеми волшебниками
+var renderWizards = function () {
+  // Создает фрагмент
+  var fragment = document.createDocumentFragment();
 
-var renderWizard = function (wizard) {
-  var wizardElement = similarWizardTemplate.cloneNode(true);
+  // Отрисовывает одного волшебника
+  var renderWizard = function (wizard) {
+    var wizardElement = similarWizardTemplate.cloneNode(true);
+    wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
 
-  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-  wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    return wizardElement;
+  };
 
-  return wizardElement;
+  // Записывает во фрагмент всех волшебников
+  for (var i = 0; i < WIZARDS_NUMBER; i++) {
+    fragment.appendChild(renderWizard(wizardsArray[i]));
+  }
+
+  return fragment;
 };
 
-var fragment = document.createDocumentFragment();
+// Запускает функцию генерации массива волшебников
+var wizardsArray = getWizardsArray(WIZARDS_NUMBER);
 
-for (var i = 0; i < WIZARDS_NUMBER; i++) {
-  fragment.appendChild(renderWizard(wizardsArray[i]));
-}
+// Запускает генерацию волшебников-объектов и вставляет их на страницу
+similarListElement.appendChild(renderWizards());
 
-similarListElement.appendChild(fragment);
-
-document.querySelector('.setup-similar').classList.remove('hidden');
+showSetup();
