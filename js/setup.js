@@ -23,6 +23,8 @@ var fireball = setup.querySelector('.setup-fireball-wrap');
 var setupInputEyes = setup.querySelector('input[name="eyes-color"]');
 var setupInputCoat = setup.querySelector('input[name="coat-color"]');
 var setupInputFireball = setup.querySelector('input[name="fireball-color"]');
+// var setupOffsetTopInit;
+// var setupOffsetLeftInit;
 
 // Вспомогательные функции
 // Выдает рандомный элемент массива
@@ -74,11 +76,16 @@ var PopupEscPressHandler = function (evt) {
 
 var openPopup = function () {
   setup.classList.remove('hidden');
+  // setupOffsetTopInit = setup.offsetTop;
+  // setupOffsetLeftInit = setup.offsetLeft;
   document.addEventListener('keydown', PopupEscPressHandler);
 };
 
 var closePopup = function () {
   setup.classList.add('hidden');
+  // setup.style.top = setupOffsetTopInit + 'px';
+  // setup.style.left = setupOffsetLeftInit + 'px';
+
   document.removeEventListener('keydown', PopupEscPressHandler);
 };
 
@@ -95,15 +102,6 @@ setupOpen.addEventListener('keydown', function (evt) {
 setupClose.addEventListener('click', function () {
   closePopup();
 });
-
-// Отправка формы же и так работает?!
-// var setupForm = setup.querySelector('.setup-wizard-form');
-// var setupSubmit = setup.querySelector('.setup-submit');
-
-// setupSubmit.addEventListener('click', function () {
-//   setupForm.submit();
-//   closePopup();
-// });
 
 var changeElementFillColor = function (targetElement, colorSourse) {
   var i = colorSourse.indexOf(targetElement.style.fill);
@@ -138,11 +136,8 @@ var getInputValue2 = function (targetInput, sourceElement) {
 };
 
 wizardCoat.addEventListener('click', function () {
-  // Или это тоже внутриенность функции, хоть и анонимной, и здесь уже нельзя переменные использовать?
   changeElementFillColor(wizardCoat, COAT_COLORS);
   getInputValue(setupInputCoat, wizardCoat);
-  // Так очень некрасиво? -->
-  // changeInputValue(wizardCoat, changeElementFillColor(wizardCoat, COAT_COLORS));
 });
 
 wizardEyes.addEventListener('click', function () {
@@ -195,6 +190,8 @@ var renderWizards = function () {
 
   return fragment;
 };
+
+// Запуск всего
 
 // Запускает функцию генерации массива волшебников
 var wizardsArray = getWizardsArray(WIZARDS_NUMBER);
